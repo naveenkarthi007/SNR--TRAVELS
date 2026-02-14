@@ -213,8 +213,8 @@ if (trackForm) {
             
             // Filter bookings by email or phone
             const userBookings = allBookings.filter(booking => 
-                booking.email.toLowerCase() === email.toLowerCase() ||
-                booking.phone === phone
+                booking.customer_email.toLowerCase() === email.toLowerCase() ||
+                booking.customer_phone === phone
             );
             
             // Display results
@@ -264,19 +264,19 @@ function displayTrackingResults(bookings) {
                     <div class="booking-details">
                         <div class="detail-row">
                             <i class="fas fa-user"></i>
-                            <span>${booking.name}</span>
+                            <span>${booking.customer_name}</span>
                         </div>
                         <div class="detail-row">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span><strong>From:</strong> ${booking.pickup}</span>
+                            <span><strong>From:</strong> ${booking.pickup_location}</span>
                         </div>
                         <div class="detail-row">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span><strong>To:</strong> ${booking.dropoff}</span>
+                            <span><strong>To:</strong> ${booking.dropoff_location}</span>
                         </div>
                         <div class="detail-row">
                             <i class="fas fa-calendar"></i>
-                            <span>${formatDateTime(booking.date)}</span>
+                            <span>${formatDateTime(booking.booking_date)}</span>
                         </div>
                         <div class="detail-row">
                             <i class="fas fa-car"></i>
