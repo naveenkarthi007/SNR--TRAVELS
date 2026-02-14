@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNR TRAVELS - User Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .dashboard-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .dashboard-header {
+            background: white;
+            border-radius: 15px;
+            padding: 20px 30px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            letter-spacing: 0.2px;
+        }
+
+        .logout-btn:hover {
+            background: #764ba2;
+        }
+
+        .user-info {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-info h2 {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.3px;
+        }
+
+        .user-info p {
+            color: #666;
+            margin: 10px 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .dashboard-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .booking-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .booking-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            line-height: 1.4;
+        }
+
+        .booking-form {
+            display: grid;
+            gap: 15px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            letter-spacing: 0.2px;
+            display: block;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .submit-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            line-height: 1.5;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .bookings-list {
+            margin-top: 30px;
+        }
+
+        .booking-item {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #667eea;
+        }
+
+        .booking-item h3 {
+            color: #333;
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+        }
+
+        .booking-detail {
+            color: #666;
+            margin: 5px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        .booking-status {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 10px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-confirmed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelled {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            letter-spacing: 0.2px;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h1><i class="fas fa-user"></i> SNR TRAVELS</h1>
+                <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+
+            <div class="user-info">
+                <h2>Welcome, <span id="userName">User</span>!</h2>
+                <p><strong>Email:</strong> <span id="userEmail">user@example.com</span></p>
+            </div>
+
+            <div class="booking-section">
+                <h2><i class="fas fa-calendar-check"></i> Book Your Ride</h2>
+                <div id="message" class="message"></div>
+
+                <form class="booking-form" id="bookingForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickup"><i class="fas fa-map-marker-alt"></i> Pickup Location</label>
+                            <input type="text" id="pickup" name="pickup" placeholder="Enter pickup location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dropoff"><i class="fas fa-map-marker-alt"></i> Drop-off Location</label>
+                            <input type="text" id="dropoff" name="dropoff" placeholder="Enter drop-off location" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="date"><i class="fas fa-calendar"></i> Date & Time</label>
+                            <input type="datetime-local" id="date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="passengers"><i class="fas fa-users"></i> Number of Passengers</label>
+                            <input type="number" id="passengers" name="passengers" min="1" max="8" value="1" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="vehicleType"><i class="fas fa-car"></i> Vehicle Type</label>
+                            <select id="vehicleType" name="vehicleType" required>
+                                <option value="">Select vehicle type</option>
+                                <option value="economy">Economy - ₹12/km</option>
+                                <option value="premium">Premium - ₹28/km</option>
+                                <option value="suv">SUV - ₹20/km</option>
+                                <option value="van">Van - ₹24/km</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn"><i class="fas fa-check"></i> Confirm Booking</button>
+                </form>
+            </div>
+
+            <div class="booking-section">
+                <h2><i class="fas fa-history"></i> Your Bookings</h2>
+                <div id="bookingsList" class="bookings-list">
+                    <p style="color: #999; text-align: center;">No bookings yet. Create one above!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        const user = JSON.parse(localStorage.getItem('user'));
+        
+        if (!user || user.role !== 'user') {
+            window.location.href = 'login.html';
+        }
+
+        document.getElementById('userName').textContent = user.name;
+        document.getElementById('userEmail').textContent = user.email;
+
+        // Load user's bookings
+        async function loadBookings() {
+            try {
+                const response = await fetch('/api/bookings');
+                const bookings = await response.json();
+                const userBookings = bookings.filter(b => b.user_id === user.id);
+                
+                const bookingsList = document.getElementById('bookingsList');
+                if (userBookings.length === 0) {
+                    bookingsList.innerHTML = '<p style="color: #999; text-align: center;">No bookings yet. Create one above!</p>';
+                    return;
+                }
+
+                bookingsList.innerHTML = userBookings.map(booking => `
+                    <div class="booking-item">
+                        <h3><i class="fas fa-location-arrow"></i> ${booking.pickup_location} → ${booking.dropoff_location}</h3>
+                        <div class="booking-detail"><strong>Date:</strong> ${new Date(booking.booking_date).toLocaleString()}</div>
+                        <div class="booking-detail"><strong>Passengers:</strong> ${booking.passengers}</div>
+                        <div class="booking-detail"><strong>Vehicle:</strong> ${booking.vehicle_name || booking.vehicle_type.toUpperCase()}</div>
+                        <div class="booking-detail"><strong>Estimated Fare:</strong> ₹${booking.estimated_fare || 'Pending'}</div>
+                        <span class="booking-status status-${booking.status}">${booking.status.toUpperCase()}</span>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+            }
+        }
+
+        // Handle booking form submission
+        document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = {
+                user_id: user.id,
+                pickup_location: document.getElementById('pickup').value,
+                dropoff_location: document.getElementById('dropoff').value,
+                booking_date: document.getElementById('date').value,
+                passengers: document.getElementById('passengers').value,
+                vehicle_type: document.getElementById('vehicleType').value,
+                estimated_distance: null,
+                estimated_fare: null
+            };
+
+            try {
+                const response = await fetch('/api/bookings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                const messageDiv = document.getElementById('message');
+                if (response.ok) {
+                    messageDiv.textContent = 'Booking created successfully!';
+                    messageDiv.className = 'message success';
+                    document.getElementById('bookingForm').reset();
+                    loadBookings();
+                } else {
+                    messageDiv.textContent = result.error || 'Failed to create booking';
+                    messageDiv.className = 'message error';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('message').textContent = 'An error occurred';
+                document.getElementById('message').className = 'message error';
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        }
+
+        // Load bookings on page load
+        loadBookings();
+    </script>
+</body>
+</html>
