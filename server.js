@@ -149,10 +149,10 @@ app.get('/api/bookings', async (req, res) => {
         u.name as customer_name,
         u.email as customer_email,
         u.phone as customer_phone,
-        v.name as vehicle_name
+        d.name as driver_name
       FROM bookings b
       JOIN users u ON b.user_id = u.id
-      LEFT JOIN vehicles v ON b.vehicle_id = v.id
+      LEFT JOIN drivers d ON b.driver_id = d.id
       ORDER BY b.booking_date DESC
     `);
     connection.release();
@@ -165,7 +165,7 @@ app.get('/api/bookings', async (req, res) => {
 
 // Create a new booking
 app.post('/api/bookings', async (req, res) => {
-  const { user_id, pickup_location, dropoff_location, booking_date, passengers, vehicle_type, estimated_distance, estimated_fare } = req.body;
+  const { user_id, pickup_location, dropoff_location, booking_date, passengers } = req.body;
 
   if (!user_id || !pickup_location || !dropoff_location || !booking_date || !passengers) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -187,8 +187,8 @@ app.post('/api/bookings', async (req, res) => {
     }
 
     const query = `
-      INSERT INTO bookings (user_id, pickup_location, dropoff_location, booking_date, passengers, vehicle_type, estimated_distance, estimated_fare, status, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', NOW())
+      INSERT INTO bookings (user_id, pickup_location, dropoff_location, booking_date, passengers, status, created_at)
+      VALUES (?, ?, ?, ?, ?, 'pending', NOW())
     `;
     
     const [result] = await connection.query(query, [
@@ -196,10 +196,7 @@ app.post('/api/bookings', async (req, res) => {
       pickup_location,
       dropoff_location,
       booking_date,
-      passengersNum,
-      vehicle_type || 'economy',
-      estimated_distance || null,
-      estimated_fare || null
+      passengersNum
     ]);
     
     connection.release();
@@ -349,6 +346,32 @@ app.delete('/api/vehicles/:id', async (req, res) => {
   } catch (error) {
     console.error('Database error:', error);
     res.status(500).json({ error: 'Failed to delete vehicle' });
+  }
+});
+
+// Get all users
+app.get('/api/users', async (req, res) => {
+  try {
+    const connection = await pool.getConnection();
+    const [rows] = await connection.query('SELECT id, name, email, phone, role, is_active, created_at FROM users ORDER BY created_at DESC');
+    connection.release();
+    res.json(rows);
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to fetch users' });
+  }
+});
+
+// Get all drivers
+app.get('/api/drivers', async (req, res) => {
+  try {
+    const connection = await pool.getConnection();
+    const [rows] = await connection.query('SELECT id, name, phone, license_number, is_available, rating, created_at FROM drivers ORDER BY created_at DESC');
+    connection.release();
+    res.json(rows);
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({ error: 'Failed to fetch drivers' });
   }
 });
 

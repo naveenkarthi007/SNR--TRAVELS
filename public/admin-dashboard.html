@@ -801,6 +801,65 @@
             box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
         }
 
+        .status-active {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .status-inactive {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            color: #4b5563;
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.2);
+        }
+
+        .status-available {
+            background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+            color: #065f46;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+
+        .status-unavailable {
+            background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%);
+            color: #991b1b;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+
+        /* ====== ROLE BADGES ====== */
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.70rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .role-admin {
+            background: linear-gradient(135deg, #fee2e2 0%, #fca5a5 100%);
+            color: #991b1b;
+        }
+
+        .role-user {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+        }
+
+        /* ====== RATING BADGE ====== */
+        .rating-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+            color: #92400e;
+        }
+
         /* ====== ACTION BUTTONS ====== */
         .action-btn {
             padding: 8px 14px;
@@ -1210,7 +1269,7 @@
                                             <th><i class="fas fa-user"></i> Customer</th>
                                             <th><i class="fas fa-map-marker-alt"></i> Route</th>
                                             <th><i class="fas fa-calendar"></i> Date</th>
-                                            <th><i class="fas fa-car"></i> Vehicle</th>
+                                            <th><i class="fas fa-users"></i> Passengers</th>
                                             <th><i class="fas fa-tag"></i> Status</th>
                                             <th><i class="fas fa-cogs"></i> Actions</th>
                                         </tr>
@@ -1256,11 +1315,40 @@
                     </div>
                     <div class="section">
                         <h2 class="section-title">Bookings Management</h2>
-                        <p style="color: var(--gray); text-align: center; padding: 40px;">Content coming soon...</p>
+                        <div class="tabs">
+                            <button class="tab active" onclick="filterBookings('all')">
+                                <i class="fas fa-list"></i> All
+                            </button>
+                            <button class="tab" onclick="filterBookings('pending')">
+                                <i class="fas fa-hourglass-half"></i> Pending
+                            </button>
+                            <button class="tab" onclick="filterBookings('confirmed')">
+                                <i class="fas fa-check"></i> Confirmed
+                            </button>
+                            <button class="tab" onclick="filterBookings('cancelled')">
+                                <i class="fas fa-times"></i> Cancelled
+                            </button>
+                        </div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Customer</th>
+                                    <th>Route</th>
+                                    <th>Date & Time</th>
+                                    <th>Passengers</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allBookingsBody">
+                                <tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 
-                <!-- USERS SECTION (Placeholder) -->
+                <!-- USERS SECTION -->
                 <section id="users-section" style="display: none;">
                     <div class="page-header">
                         <h1 class="page-title"><i class="fas fa-users"></i> Users</h1>
@@ -1268,11 +1356,26 @@
                     </div>
                     <div class="section">
                         <h2 class="section-title">Users Management</h2>
-                        <p style="color: var(--gray); text-align: center; padding: 40px;">Content coming soon...</p>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersBody">
+                                <tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 
-                <!-- DRIVERS SECTION (Placeholder) -->
+                <!-- DRIVERS SECTION -->
                 <section id="drivers-section" style="display: none;">
                     <div class="page-header">
                         <h1 class="page-title"><i class="fas fa-car"></i> Drivers</h1>
@@ -1280,7 +1383,22 @@
                     </div>
                     <div class="section">
                         <h2 class="section-title">Drivers Management</h2>
-                        <p style="color: var(--gray); text-align: center; padding: 40px;">Content coming soon...</p>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>License Number</th>
+                                    <th>Rating</th>
+                                    <th>Status</th>
+                                    <th>Joined</th>
+                                </tr>
+                            </thead>
+                            <tbody id="driversBody">
+                                <tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 
@@ -1343,9 +1461,16 @@
 
             currentSection = section;
 
-            // Reload bookings if on dashboard
+            // Load data based on section
             if (section === 'dashboard') {
                 loadBookings();
+            } else if (section === 'bookings') {
+                loadBookings();
+                displayBookings();
+            } else if (section === 'users') {
+                loadUsers();
+            } else if (section === 'drivers') {
+                loadDrivers();
             }
         }
 
@@ -1376,10 +1501,47 @@
                 const response = await fetch('/api/bookings');
                 allBookings = await response.json();
                 updateStats();
+                renderRecentBookings();
                 displayBookings();
             } catch (error) {
                 console.error('Error loading bookings:', error);
             }
+        }
+
+        // Display recent bookings in dashboard (first 5)
+        function renderRecentBookings() {
+            const recentBookings = allBookings.slice(0, 5);
+            const tbody = document.getElementById('bookingsBody');
+            
+            if (recentBookings.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No bookings to display</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = recentBookings.map(booking => `
+                <tr>
+                    <td>#${booking.id}</td>
+                    <td><strong>${booking.customer_name}</strong></td>
+                    <td><i class="fas fa-map-marker-alt"></i> ${booking.pickup_location} → ${booking.dropoff_location}</td>
+                    <td>${new Date(booking.booking_date).toLocaleDateString()}</td>
+                    <td>${booking.passengers} pass.</td>
+                    <td><span class="status-badge status-${booking.status}">${booking.status.toUpperCase()}</span></td>
+                    <td>
+                        ${booking.status === 'pending' ? `
+                            <button class="action-btn btn-approve" onclick="updateBookingStatus(${booking.id}, 'confirmed')" title="Approve booking">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        ` : '<span style="color: #ccc;">—</span>'}
+                    </td>
+                </tr>
+            `).join('');
         }
 
         function updateStats() {
@@ -1417,7 +1579,7 @@
                 ? allBookings 
                 : allBookings.filter(b => b.status === filteredStatus);
 
-            const tbody = document.getElementById('bookingsBody');
+            const tbody = document.getElementById('allBookingsBody');
             
             if (bookings.length === 0) {
                 tbody.innerHTML = `
@@ -1437,7 +1599,7 @@
                     <td><strong>${booking.customer_name}</strong></td>
                     <td><i class="fas fa-map-marker-alt"></i> ${booking.pickup_location} → ${booking.dropoff_location}</td>
                     <td><i class="fas fa-calendar"></i> ${new Date(booking.booking_date).toLocaleString()}</td>
-                    <td><i class="fas fa-car"></i> ${booking.vehicle_type.toUpperCase()}</td>
+                    <td><i class="fas fa-users"></i> ${booking.passengers}</td>
                     <td><span class="status-badge status-${booking.status}">${booking.status.toUpperCase()}</span></td>
                     <td>
                         ${booking.status === 'pending' ? `
@@ -1470,6 +1632,92 @@
             } catch (error) {
                 console.error('Error updating booking:', error);
             }
+        }
+
+        // Load all users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                const users = await response.json();
+                displayUsers(users);
+            } catch (error) {
+                console.error('Error loading users:', error);
+                document.getElementById('usersBody').innerHTML = `
+                    <tr><td colspan="7" class="empty-state"><i class="fas fa-exclamation-circle"></i> Error loading users</td></tr>
+                `;
+            }
+        }
+
+        // Display users in table
+        function displayUsers(users) {
+            const tbody = document.getElementById('usersBody');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No users found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>#${user.id}</td>
+                    <td><strong>${user.name}</strong></td>
+                    <td>${user.email}</td>
+                    <td>${user.phone || 'N/A'}</td>
+                    <td><span class="role-badge role-${user.role}">${user.role.toUpperCase()}</span></td>
+                    <td><span class="status-badge status-${user.is_active ? 'active' : 'inactive'}">${user.is_active ? 'ACTIVE' : 'INACTIVE'}</span></td>
+                    <td>${new Date(user.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Load all drivers
+        async function loadDrivers() {
+            try {
+                const response = await fetch('/api/drivers');
+                const drivers = await response.json();
+                displayDrivers(drivers);
+            } catch (error) {
+                console.error('Error loading drivers:', error);
+                document.getElementById('driversBody').innerHTML = `
+                    <tr><td colspan="7" class="empty-state"><i class="fas fa-exclamation-circle"></i> Error loading drivers</td></tr>
+                `;
+            }
+        }
+
+        // Display drivers in table
+        function displayDrivers(drivers) {
+            const tbody = document.getElementById('driversBody');
+            
+            if (drivers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>No drivers found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = drivers.map(driver => `
+                <tr>
+                    <td>#${driver.id}</td>
+                    <td><strong>${driver.name}</strong></td>
+                    <td>${driver.phone}</td>
+                    <td>${driver.license_number}</td>
+                    <td><span class="rating-badge">⭐ ${driver.rating}</span></td>
+                    <td><span class="status-badge status-${driver.is_available ? 'available' : 'unavailable'}">${driver.is_available ? 'AVAILABLE' : 'UNAVAILABLE'}</span></td>
+                    <td>${new Date(driver.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('');
         }
 
         function showLogout() {

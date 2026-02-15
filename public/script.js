@@ -109,26 +109,30 @@ function scrollToBooking() {
 
 // Form Submission Handler
 const bookingForm = document.getElementById('bookingForm');
-const formMessage = document.getElementById('formMessage');
+const formMessage = document.getElementById('message');
 
 if (bookingForm && formMessage) {
     bookingForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        // Get current user
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (!user || !user.id) {
+            showMessage('Please log in to make a booking', 'error');
+            return;
+        }
+
         // Get form data
         const formData = {
-            pickup: document.getElementById('pickup').value,
-            dropoff: document.getElementById('dropoff').value,
-            date: document.getElementById('date').value,
-            passengers: document.getElementById('passengers').value,
-            vehicle_type: document.getElementById('vehicle_type').value,
-            name: document.getElementById('name').value,
-            phone: document.getElementById('phone').value,
-            email: document.getElementById('email').value
+            user_id: user.id,
+            pickup_location: document.getElementById('pickup').value,
+            dropoff_location: document.getElementById('dropoff').value,
+            booking_date: document.getElementById('date').value,
+            passengers: document.getElementById('passengers').value
         };
 
         // Validate form data
-        if (!validateForm(formData)) {
+        if (!formData.pickup_location || !formData.dropoff_location || !formData.booking_date || !formData.passengers) {
             showMessage('Please fill all required fields', 'error');
             return;
         }
@@ -160,8 +164,7 @@ if (bookingForm && formMessage) {
                 const userBookings = JSON.parse(localStorage.getItem('userBookings') || '[]');
                 userBookings.push({
                     bookingId: result.bookingId,
-                    email: formData.email,
-                    phone: formData.phone,
+                    email: user.email,
                     date: new Date().toISOString()
                 });
                 localStorage.setItem('userBookings', JSON.stringify(userBookings));

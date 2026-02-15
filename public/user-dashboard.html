@@ -1281,7 +1281,7 @@
                             <p>Pending</p>
                         </div>
                     </div>
-                    <div class="stat-card">
+                    <!-- <div class="stat-card">
                         <div class="stat-icon purple">
                             <i class="fas fa-car"></i>
                         </div>
@@ -1289,7 +1289,7 @@
                             <h3 id="completedBookings">0</h3>
                             <p>Completed</p>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <!-- Recent Bookings -->
@@ -1512,18 +1512,25 @@
             const pending = allUserBookings.filter(b => b.status === 'pending').length;
             const completed = allUserBookings.filter(b => b.status === 'completed').length;
 
-            document.getElementById('totalBookings').textContent = total;
-            document.getElementById('confirmedBookings').textContent = confirmed;
-            document.getElementById('pendingBookings').textContent = pending;
-            document.getElementById('completedBookings').textContent = completed;
+            const totalBookingsEl = document.getElementById('totalBookings');
+            const confirmedBookingsEl = document.getElementById('confirmedBookings');
+            const pendingBookingsEl = document.getElementById('pendingBookings');
+            const completedBookingsEl = document.getElementById('completedBookings');
+
+            if (totalBookingsEl) totalBookingsEl.textContent = total;
+            if (confirmedBookingsEl) confirmedBookingsEl.textContent = confirmed;
+            if (pendingBookingsEl) pendingBookingsEl.textContent = pending;
+            if (completedBookingsEl) completedBookingsEl.textContent = completed;
 
             // Update bookings badge for pending count
             const badge = document.getElementById('bookingsBadge');
-            if (pending > 0) {
-                badge.textContent = pending;
-                badge.style.display = 'inline-block';
-            } else {
-                badge.style.display = 'none';
+            if (badge) {
+                if (pending > 0) {
+                    badge.textContent = pending;
+                    badge.style.display = 'inline-block';
+                } else {
+                    badge.style.display = 'none';
+                }
             }
         }
 
@@ -1614,10 +1621,10 @@
                             </div>
                         </div>
                         <div class="booking-detail">
-                            <i class="fas fa-car"></i>
+                            <i class="fas fa-rupee-sign"></i>
                             <div class="booking-detail-content">
-                                <div class="booking-detail-label">Vehicle</div>
-                                <div class="booking-detail-value">${booking.vehicle_type.toUpperCase()}</div>
+                                <div class="booking-detail-label">Fare</div>
+                                <div class="booking-detail-value">₹${booking.fare || 'Pending'}</div>
                             </div>
                         </div>
                     </div>
@@ -1638,10 +1645,7 @@
                 pickup_location: document.getElementById('pickup').value,
                 dropoff_location: document.getElementById('dropoff').value,
                 booking_date: document.getElementById('date').value,
-                passengers: document.getElementById('passengers').value,
-                vehicle_type: document.getElementById('vehicleType').value,
-                estimated_distance: null,
-                estimated_fare: null
+                passengers: document.getElementById('passengers').value
             };
 
             try {
@@ -1687,14 +1691,19 @@
             }
         }
 
-        // Set minimum date to now
-        const dateInput = document.getElementById('date');
-        const now = new Date();
-        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-        dateInput.min = now.toISOString().slice(0, 16);
+        // Initialize on DOM ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set minimum date to now
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                const now = new Date();
+                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                dateInput.min = now.toISOString().slice(0, 16);
+            }
 
-        // Load bookings on page load
-        loadBookings();
+            // Load bookings on page load
+            loadBookings();
+        });
     </script>
 </body>
 </html>
