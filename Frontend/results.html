@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Search and compare bus routes with SNR Travels. Find the best fares and book your seat instantly.">
+    <title>SNR Travels - Bus Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="results.css">
+    <script>try{const t=localStorage.getItem('snr-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+</head>
+<body>
+    <header class="header">
+        <div class="container wrap">
+            <a class="brand" href="index.html"><i class="fa-solid fa-bus"></i><span>SNR Travels</span></a>
+            <form id="topSearchForm" class="top-search">
+                <input id="topFrom" type="text" placeholder="From" required>
+                <input id="topTo" type="text" placeholder="To" required>
+                <input id="topDate" type="date" required>
+                <button type="submit"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </form>
+            <div class="header-actions">
+                <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <a href="login.html" id="resultsAuthLink" class="login-link">Login</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container page">
+        <section class="summary">
+            <div>
+                <h1 id="routeTitle">Available buses</h1>
+                <p id="routeSubtitle">Choose your bus and complete booking quickly.</p>
+            </div>
+            <div class="chips">
+                <span><strong id="resultCount">0</strong> Results</span>
+                <span>Trusted Operators</span>
+                <span>24/7 Support</span>
+            </div>
+        </section>
+
+        <section class="layout">
+            <aside class="filters">
+                <h2>Filters</h2>
+
+                <div class="group">
+                    <h3>Bus Type</h3>
+                    <label><input type="checkbox" value="sleeper" class="filter-type"> Sleeper</label>
+                    <label><input type="checkbox" value="seater" class="filter-type"> Seater</label>
+                    <label><input type="checkbox" value="ac" class="filter-type"> AC</label>
+                </div>
+
+                <div class="group">
+                    <h3>Departure Time</h3>
+                    <label><input type="radio" name="time" value="all" checked> All</label>
+                    <label><input type="radio" name="time" value="morning"> Morning</label>
+                    <label><input type="radio" name="time" value="afternoon"> Afternoon</label>
+                    <label><input type="radio" name="time" value="night"> Night</label>
+                </div>
+
+                <div class="group">
+                    <h3>Max Price</h3>
+                    <input id="maxPrice" type="range" min="300" max="1500" step="50" value="1500">
+                    <p>Up to ₹<span id="maxPriceLabel">1500</span></p>
+                </div>
+
+                <button id="clearFilters" class="clear">Reset Filters</button>
+            </aside>
+
+            <section class="results-panel">
+                <div class="toolbar">
+                    <p id="toolbarText">Loading buses...</p>
+                    <select id="sortBy">
+                        <option value="recommended">Sort: Recommended</option>
+                        <option value="priceLow">Price: Low to High</option>
+                        <option value="priceHigh">Price: High to Low</option>
+                        <option value="rating">Rating</option>
+                        <option value="departure">Departure Time</option>
+                    </select>
+                </div>
+                <div id="busResults" class="bus-results"></div>
+            </section>
+        </section>
+    </main>
+
+    <div id="bookingModal" class="booking-modal hidden" aria-hidden="true">
+        <div class="booking-dialog">
+            <button id="closeBookingModal" class="close-modal" type="button" aria-label="Close booking modal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="booking-head">
+                <h2><i class="fa-solid fa-ticket" style="color:#5d66dc"></i> Complete Your Booking</h2>
+                <p id="bookingRouteText">Route details</p>
+            </div>
+
+            <div class="booking-grid">
+                <section class="booking-card">
+                    <h3><i class="fa-solid fa-bus"></i> Trip Details</h3>
+                    <p id="bookingBusName" class="booking-bus-name">Bus Name</p>
+                    <p id="bookingTimeText" class="booking-sub">Departure and arrival</p>
+                    <div class="booking-form-row">
+                        <label for="passengerCount">Passengers</label>
+                        <input id="passengerCount" type="number" min="1" max="6" value="1">
+                    </div>
+                    <div class="booking-form-row">
+                        <label for="contactNumber">Contact Number</label>
+                        <input id="contactNumber" type="tel" placeholder="Enter 10-digit mobile number">
+                    </div>
+                    <div class="booking-total">
+                        <span>Total Amount</span>
+                        <strong id="bookingAmount">₹0</strong>
+                    </div>
+                </section>
+
+                <section class="booking-card">
+                    <h3><i class="fa-solid fa-wallet"></i> Payment Method</h3>
+                    <div class="payment-options">
+                        <button class="pay-option active" data-method="GPAY" type="button">
+                            <i class="fa-brands fa-google-pay"></i> GPay
+                        </button>
+                        <button class="pay-option" data-method="CARD" type="button">
+                            <i class="fa-solid fa-credit-card"></i> Card
+                        </button>
+                        <button class="pay-option" data-method="NETBANKING" type="button">
+                            <i class="fa-solid fa-building-columns"></i> Net Banking
+                        </button>
+                        <button class="pay-option" data-method="CASH" type="button">
+                            <i class="fa-solid fa-money-bill-wave"></i> Cash
+                        </button>
+                    </div>
+
+                    <div id="gpayFields">
+                        <div class="booking-form-row">
+                            <label for="gpayUpiId">UPI ID</label>
+                            <input id="gpayUpiId" type="text" placeholder="name@okaxis">
+                        </div>
+                    </div>
+
+                    <div id="cardFields" style="display:none">
+                        <div class="booking-form-row">
+                            <label for="cardNumber">Card Number</label>
+                            <input id="cardNumber" type="text" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="booking-form-row-split">
+                            <div class="booking-form-row">
+                                <label for="cardExpiry">Expiry</label>
+                                <input id="cardExpiry" type="text" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="booking-form-row">
+                                <label for="cardCvv">CVV</label>
+                                <input id="cardCvv" type="password" placeholder="•••" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="netbankFields" style="display:none">
+                        <div class="booking-form-row">
+                            <label for="bankName">Select Bank</label>
+                            <select id="bankName">
+                                <option value="sbi">State Bank of India</option>
+                                <option value="hdfc">HDFC Bank</option>
+                                <option value="icici">ICICI Bank</option>
+                                <option value="axis">Axis Bank</option>
+                                <option value="kotak">Kotak Mahindra Bank</option>
+                                <option value="pnb">Punjab National Bank</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="cashFields" style="display:none">
+                        <div class="cash-info">
+                            <i class="fa-solid fa-info-circle"></i>
+                            <p>Pay in cash at the boarding point. Your booking will be confirmed and payment collected before departure.</p>
+                        </div>
+                    </div>
+
+                    <button id="confirmBookingBtn" class="pay-btn" type="button"><i class="fa-solid fa-bolt"></i> Pay with GPay & Confirm</button>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="results.js"></script>
+</body>
+</html>

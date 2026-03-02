@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your bus bookings, view trip history, and track payment status on SNR Travels.">
+    <meta name="robots" content="noindex">
+    <title>SNR Travels - User Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="user-dashboard.css">
+    <script>try{const t=localStorage.getItem('snr-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header-wrap">
+            <a class="brand" href="index.html"><i class="fa-solid fa-bus"></i><span>SNR Travels</span></a>
+            <div class="actions">
+                <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <a class="btn" href="results.html"><i class="fa-solid fa-ticket"></i> Book Tickets</a>
+                <a class="btn" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+                <button id="logoutBtn" class="btn primary" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container page">
+        <section class="title-card">
+            <h1>Hi, <span id="welcomeName">Traveler</span> 👋</h1>
+            <p>Your dashboard with booking details, payment summary, and trip management.</p>
+        </section>
+
+        <section class="stats">
+            <article class="stat">
+                <i class="fa-solid fa-ticket stat-icon"></i>
+                <p>Total Bookings</p>
+                <h3 id="totalBookings">0</h3>
+            </article>
+            <article class="stat">
+                <i class="fa-solid fa-circle-check stat-icon"></i>
+                <p>Confirmed</p>
+                <h3 id="confirmedBookings">0</h3>
+            </article>
+            <article class="stat">
+                <i class="fa-solid fa-flag-checkered stat-icon"></i>
+                <p>Completed</p>
+                <h3 id="completedBookings">0</h3>
+            </article>
+            <article class="stat highlight">
+                <i class="fa-solid fa-indian-rupee-sign stat-icon"></i>
+                <p>Paid Amount</p>
+                <h3 id="paidAmount">₹0</h3>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-head">
+                <div>
+                    <h2><i class="fa-solid fa-list-check" style="color:var(--primary)"></i> My Bookings</h2>
+                    <p id="myBookingSummary">Loading bookings...</p>
+                </div>
+                <button id="refreshBtn" class="btn" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+            </div>
+
+            <div class="filters">
+                <input id="bookingSearch" type="search" placeholder="Search by booking id or route..." autocomplete="off">
+                <select id="statusFilter">
+                    <option value="all">All Statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="confirmed">Confirmed</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Route</th>
+                            <th>Date</th>
+                            <th>Passengers</th>
+                            <th>Fare</th>
+                            <th>Payment</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="myBookingBody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© <span id="footerYear"></span> SNR Travels. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="results.html">Book Tickets</a>
+                <a href="mailto:support@snrtravels.com">Support</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="shared.js"></script>
+    <script src="user-dashboard.js"></script>
+</body>
+
+</html>

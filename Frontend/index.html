@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SNR Travels — Fast and reliable intercity bus booking. Search routes, find the best fares, and book your seat in seconds.">
+    <meta name="keywords" content="bus booking, intercity travel, SNR Travels, online bus tickets, Chennai, Bengaluru, Mumbai, Delhi">
+    <meta name="author" content="SNR Travels">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="SNR Travels - Intercity Bus Booking">
+    <meta property="og:description" content="Fast and reliable intercity bus booking. Search routes, find the best fares, and book your seat in seconds.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://snrtravels.com">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>SNR Travels - Intercity Bus Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="contact.css">
+    <link rel="stylesheet" href="home.css">
+    <!-- Inline critical: prevent dark-mode flash -->
+    <script>try{const t=localStorage.getItem('snr-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+</head>
+
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a href="index.html" class="brand"><i class="fa-solid fa-bus"></i><span>SNR Travels</span></a>
+            <button id="menuBtn" class="menu-btn" aria-label="Toggle menu"><i class="fa-solid fa-bars"></i></button>
+            <nav id="navLinks" class="nav-links" aria-label="Main navigation">
+                <a href="#routes">Routes</a>
+                <a href="#features">Features</a>
+                <a href="#contact">Contact</a>
+                <a href="results.html">Results</a>
+                <a href="login.html" id="mobileAuthLink" class="mobile-auth">Login</a>
+            </nav>
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+                    <i class="fa-solid fa-moon"></i>
+                    <i class="fa-solid fa-sun"></i>
+                </button>
+                <a href="login.html" id="desktopAuthLink" class="btn btn-light">
+                    <i class="fa-regular fa-user" id="desktopAuthIcon"></i>
+                    <span id="desktopAuthBadge" class="auth-badge" aria-hidden="true"></span>
+                    <span id="desktopAuthText">Login</span>
+                </a>
+                <a href="results.html" class="btn btn-primary"><i class="fa-solid fa-ticket"></i> Book Tickets</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <p class="eyebrow">Reliable Intercity Travel</p>
+                    <h1>Book your bus in seconds.</h1>
+                    <p class="sub">Fast booking, trusted operators, and smooth boarding updates for every trip.</p>
+                    <div class="hero-points">
+                        <span><i class="fa-solid fa-shield"></i> Safe rides</span>
+                        <span><i class="fa-solid fa-clock"></i> On-time service</span>
+                        <span><i class="fa-solid fa-headset"></i> 24/7 support</span>
+                    </div>
+                    <div class="hero-image-strip">
+                        <img src="images/chennai.jpg" alt="Chennai route preview" loading="lazy">
+                        <img src="images/bengaluru.jpg" alt="Bengaluru route preview" loading="lazy">
+                        <img src="images/hyderabad.jpg" alt="Hyderabad route preview" loading="lazy">
+                    </div>
+                </div>
+
+                <form id="tripSearchForm" class="search-card">
+                    <h2>Search buses</h2>
+                    <label for="fromCity">From</label>
+                    <input id="fromCity" type="text" placeholder="e.g. Chennai" required>
+
+                    <label for="toCity">To</label>
+                    <input id="toCity" type="text" placeholder="e.g. Bengaluru" required>
+
+                    <label for="travelDate">Travel Date</label>
+                    <input id="travelDate" type="date" required>
+
+                    <button type="submit" class="btn btn-primary full">Search Now</button>
+                    <p id="searchResult" class="hint"></p>
+                </form>
+            </div>
+        </section>
+
+        <section class="section image-showcase">
+            <div class="container">
+                <div class="showcase-head">
+                    <h2>Trending Weekend Destinations</h2>
+                    <p>Explore popular city routes with premium buses and flexible timings.</p>
+                </div>
+                <div class="showcase-grid">
+                    <article class="showcase-card large">
+                        <img src="images/hero-bus.jpg" alt="Luxury bus on route" loading="lazy">
+                        <div class="overlay">
+                            <h3>Premium Night Coaches</h3>
+                            <p>Comfort rides with AC sleeper options.</p>
+                        </div>
+                    </article>
+                    <article class="showcase-card">
+                        <img src="images/mumbai.jpg" alt="Mumbai destination" loading="lazy">
+                        <div class="overlay">
+                            <h3>Mumbai</h3>
+                        </div>
+                    </article>
+                    <article class="showcase-card">
+                        <img src="images/pune.jpg" alt="Pune destination" loading="lazy">
+                        <div class="overlay">
+                            <h3>Pune</h3>
+                        </div>
+                    </article>
+                    <article class="showcase-card">
+                        <img src="images/delhi.jpg" alt="Delhi destination" loading="lazy">
+                        <div class="overlay">
+                            <h3>Delhi</h3>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <div class="container cards three">
+                <article class="card"><i class="fa-solid fa-bolt"></i>
+                    <h3>Quick Booking</h3>
+                    <p>Pick your route and reserve your seat in under a minute.</p>
+                </article>
+                <article class="card"><i class="fa-solid fa-location-dot"></i>
+                    <h3>Live Updates</h3>
+                    <p>Get boarding and trip updates before departure.</p>
+                </article>
+                <article class="card"><i class="fa-solid fa-wallet"></i>
+                    <h3>Best Value</h3>
+                    <p>Transparent prices with route-wise fare options.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="routes" class="section alt">
+            <div class="container">
+                <h2>Popular Routes</h2>
+                <div class="cards two">
+                    <article class="card route-card"><img src="images/chennai.jpg" alt="Chennai" loading="lazy">
+                        <h3>Chennai → Bengaluru</h3>
+                        <p>Starting ₹599</p>
+                    </article>
+                    <article class="card route-card"><img src="images/hyderabad.jpg" alt="Hyderabad" loading="lazy">
+                        <h3>Hyderabad → Vijayawada</h3>
+                        <p>Starting ₹549</p>
+                    </article>
+                    <article class="card route-card"><img src="images/mumbai.jpg" alt="Mumbai" loading="lazy">
+                        <h3>Mumbai → Pune</h3>
+                        <p>Starting ₹449</p>
+                    </article>
+                    <article class="card route-card"><img src="images/delhi.jpg" alt="Delhi" loading="lazy">
+                        <h3>Delhi → Jaipur</h3>
+                        <p>Starting ₹499</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section how-it-works">
+            <div class="container">
+                <div class="section-header">
+                    <h2>How It Works</h2>
+                    <p>Book your bus ticket in 3 simple steps</p>
+                </div>
+                <div class="steps-grid">
+                    <article class="step">
+                        <div class="step-number">1</div>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <h3>Search Route</h3>
+                        <p>Enter your departure city, destination, and travel date to find available buses.</p>
+                    </article>
+                    <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+                    <article class="step">
+                        <div class="step-number">2</div>
+                        <i class="fa-solid fa-chair"></i>
+                        <h3>Select & Book</h3>
+                        <p>Choose your preferred bus, pick seats, and complete the booking with secure payment.</p>
+                    </article>
+                    <div class="step-connector"><i class="fa-solid fa-arrow-right"></i></div>
+                    <article class="step">
+                        <div class="step-number">3</div>
+                        <i class="fa-solid fa-bus-simple"></i>
+                        <h3>Travel Happy</h3>
+                        <p>Get instant confirmation, boarding updates, and enjoy a comfortable journey.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section trust-stats">
+            <div class="container">
+                <div class="stats-bar">
+                    <div class="trust-stat">
+                        <h3>10K+</h3>
+                        <p>Happy Travelers</p>
+                    </div>
+                    <div class="trust-stat">
+                        <h3>50+</h3>
+                        <p>City Routes</p>
+                    </div>
+                    <div class="trust-stat">
+                        <h3>98%</h3>
+                        <p>On-Time Rate</p>
+                    </div>
+                    <div class="trust-stat">
+                        <h3>4.8★</h3>
+                        <p>Avg Rating</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Travelers Say</h2>
+                    <p>Real reviews from our passengers</p>
+                </div>
+                <div class="cards three">
+                    <article class="card testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Booked a sleeper bus from Chennai to Bengaluru. Super comfortable and arrived right on time. Great experience!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">RK</div>
+                            <div><strong>Rahul K.</strong><span>Chennai → Bengaluru</span></div>
+                        </div>
+                    </article>
+                    <article class="card testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Easy booking process. Loved that GPay was accepted directly. The bus was clean and the driver was professional."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">PS</div>
+                            <div><strong>Priya S.</strong><span>Mumbai → Pune</span></div>
+                        </div>
+                    </article>
+                    <article class="card testimonial-card">
+                        <div class="testimonial-stars">
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"Family trip from Delhi to Jaipur was great. Spacious SUV bus with enough luggage space. Will book again!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AM</div>
+                            <div><strong>Anil M.</strong><span>Delhi → Jaipur</span></div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="section newsletter-section">
+            <div class="container">
+                <div class="newsletter">
+                    <div class="newsletter-text">
+                        <h2><i class="fa-solid fa-envelope"></i> Get Travel Updates</h2>
+                        <p>Subscribe for exclusive offers, new route announcements, and travel tips.</p>
+                    </div>
+                    <form id="newsletterForm" class="newsletter-form">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        <!-- ─── CONTACT FORM SECTION ──────────────────────────────────── -->
+        <section id="contact" class="section contact-section">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info-card">
+                        <h2>Get in Touch</h2>
+                        <p>Have questions or need help? Reach out to our team.</p>
+
+                        <div class="contact-detail">
+                            <div class="contact-detail-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="contact-detail-text">
+                                <strong>Email Us</strong>
+                                <a href="mailto:support@snrtravels.com">support@snrtravels.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <div class="contact-detail-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="contact-detail-text">
+                                <strong>Call Us</strong>
+                                <a href="tel:+911800123456">+91 1800 123 456</a>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <div class="contact-detail-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="contact-detail-text">
+                                <strong>Office</strong>
+                                <span>123 Transport Nagar, Chennai, India</span>
+                            </div>
+                        </div>
+                        <div class="contact-detail">
+                            <div class="contact-detail-icon"><i class="fa-solid fa-clock"></i></div>
+                            <div class="contact-detail-text">
+                                <strong>Working Hours</strong>
+                                <span>24/7 — We never stop</span>
+                            </div>
+                        </div>
+
+                        <div class="contact-socials">
+                            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-card">
+                        <h2><i class="fa-solid fa-paper-plane"></i> Send a Message</h2>
+                        <form id="contactForm" novalidate>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contactName">Full Name <span class="required">*</span></label>
+                                    <input id="contactName" type="text" placeholder="John Doe" required>
+                                    <span class="field-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactEmail">Email <span class="required">*</span></label>
+                                    <input id="contactEmail" type="email" placeholder="john@example.com" required>
+                                    <span class="field-error"></span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="contactPhone">Phone</label>
+                                    <input id="contactPhone" type="tel" placeholder="+91 98765 43210">
+                                    <span class="field-error"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contactSubject">Subject <span class="required">*</span></label>
+                                    <input id="contactSubject" type="text" placeholder="Booking inquiry" required>
+                                    <span class="field-error"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactMessage">Message <span class="required">*</span></label>
+                                <textarea id="contactMessage" placeholder="Tell us how we can help you..." required></textarea>
+                                <span class="field-error"></span>
+                            </div>
+                            <button type="submit" class="contact-submit-btn">
+                                <i class="fa-solid fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <h3>SNR Travels</h3>
+                <p>Simple and dependable bus booking for daily intercity travel.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <a href="results.html">Bus Results</a>
+                <a href="login.html">Login</a>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <a href="mailto:support@snrtravels.com">support@snrtravels.com</a>
+                <a href="tel:+911800123456">+91 1800 123 456</a>
+            </div>
+        </div>
+        <p class="copy">© <span id="currentYear"></span> SNR Travels</p>
+    </footer>
+
+    <!-- Back to Top -->
+    <button class="back-to-top" aria-label="Back to top" type="button"><i class="fa-solid fa-arrow-up"></i></button>
+
+    <script src="shared.js"></script>
+    <script src="home.js"></script>
+</body>
+
+</html>

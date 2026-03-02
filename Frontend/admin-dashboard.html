@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SNR Travels admin panel — Manage bookings, users, drivers, and analytics.">
+    <meta name="robots" content="noindex">
+    <title>SNR Travels — Admin Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="admin-dashboard.css">
+    <script>try{const t=localStorage.getItem('snr-theme');if(t)document.documentElement.setAttribute('data-theme',t);else if(matchMedia('(prefers-color-scheme:dark)').matches)document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
+</head>
+
+<body>
+    <!-- Toast container -->
+    <div id="toastContainer"></div>
+
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="layout">
+        <!-- ═══════════ SIDEBAR ═══════════ -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-top">
+                <div class="brand">
+                    <div class="brand-logo"><i class="fa-solid fa-bus"></i></div>
+                    <div class="brand-text">
+                        <strong>SNR Travels</strong>
+                        <small>Admin Panel</small>
+                    </div>
+                </div>
+                <button class="sidebar-close" id="sidebarClose" type="button" aria-label="Close sidebar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="side-user">
+                <div class="avatar" id="adminInitials">A</div>
+                <div class="user-info">
+                    <strong id="adminName">Admin</strong>
+                    <span class="role-badge"><i class="fa-solid fa-shield-halved"></i> Administrator</span>
+                </div>
+            </div>
+
+            <p class="nav-label">Navigation</p>
+            <nav class="menu">
+                <button class="menu-item active" data-section="dashboard" type="button">
+                    <i class="fa-solid fa-gauge-high"></i><span>Dashboard</span>
+                </button>
+                <button class="menu-item" data-section="bookings" type="button">
+                    <i class="fa-solid fa-ticket"></i><span>Bookings</span>
+                </button>
+                <button class="menu-item" data-section="users" type="button">
+                    <i class="fa-solid fa-users"></i><span>Users</span>
+                </button>
+                <button class="menu-item" data-section="drivers" type="button">
+                    <i class="fa-solid fa-id-card"></i><span>Drivers</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="index.html" class="footer-link"><i class="fa-solid fa-globe"></i><span>Visit Website</span></a>
+                <button class="logout-btn" id="logoutBtn" type="button">
+                    <i class="fa-solid fa-right-from-bracket"></i><span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- ═══════════ MAIN CONTENT ═══════════ -->
+        <main class="main">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="hamburger" id="hamburgerBtn" type="button" aria-label="Open menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="page-info">
+                        <h1 id="pageTitle">Dashboard</h1>
+                        <p id="pageSubtitle">Live booking operations with payment received and status tracking</p>
+                    </div>
+                </div>
+                <div class="topbar-right">
+                    <span id="lastUpdated" class="meta-text"></span>
+                    <button class="theme-toggle" aria-label="Toggle dark mode" type="button">
+                        <i class="fa-solid fa-moon"></i>
+                        <i class="fa-solid fa-sun"></i>
+                    </button>
+                    <button class="btn btn-primary" id="refreshBtn" type="button">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- ═══ DASHBOARD ═══ -->
+                <section id="dashboard-section" class="section active">
+                    <div class="welcome-card">
+                        <div class="welcome-body">
+                            <h2>Welcome back, <span id="welcomeName">Admin</span>! 👋</h2>
+                            <p>Here's what's happening with your travel business today.</p>
+                        </div>
+                        <div class="welcome-art">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                    </div>
+
+                    <div class="kpis">
+                        <article class="kpi kpi-blue">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-ticket"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Total Bookings</p>
+                                <h3 class="kpi-value" id="kpiTotal">—</h3>
+                            </div>
+                        </article>
+                        <article class="kpi kpi-amber">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-clock"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Pending</p>
+                                <h3 class="kpi-value" id="kpiPending">—</h3>
+                            </div>
+                        </article>
+                        <article class="kpi kpi-emerald">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-circle-check"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Confirmed</p>
+                                <h3 class="kpi-value" id="kpiConfirmed">—</h3>
+                            </div>
+                        </article>
+                        <article class="kpi kpi-indigo">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-flag-checkered"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Completed</p>
+                                <h3 class="kpi-value" id="kpiCompleted">—</h3>
+                            </div>
+                        </article>
+                        <article class="kpi kpi-violet">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-wallet"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Paid Bookings</p>
+                                <h3 class="kpi-value" id="kpiPaid">—</h3>
+                            </div>
+                        </article>
+                        <article class="kpi kpi-green kpi-received">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-money-bill-wave"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Payment Received</p>
+                                <h3 class="kpi-value" id="kpiPaymentReceived">—</h3>
+                            </div>
+                        </article>
+                        <article class="kpi kpi-teal">
+                            <div class="kpi-icon-wrap"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+                            <div class="kpi-body">
+                                <p class="kpi-label">Total Revenue</p>
+                                <h3 class="kpi-value" id="kpiRevenue">—</h3>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="panel">
+                            <div class="panel-head">
+                                <div class="panel-title"><i class="fa-solid fa-chart-line"></i> Last 7 Days Trend</div>
+                                <span class="panel-sub">Daily booking volume</span>
+                            </div>
+                            <canvas id="trendCanvas" width="700" height="180"></canvas>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-head">
+                                <div class="panel-title"><i class="fa-solid fa-bell"></i> Activity Feed</div>
+                                <span class="panel-sub">Latest booking updates</span>
+                            </div>
+                            <ul id="activityFeed" class="activity-list"></ul>
+                        </div>
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-head">
+                            <div class="panel-title"><i class="fa-solid fa-clock-rotate-left"></i> Recent Bookings</div>
+                            <span class="panel-sub">Latest 6 requests</span>
+                        </div>
+                        <div class="panel-overflow">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Route</th>
+                                        <th>Date</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══ BOOKINGS ═══ -->
+                <section id="bookings-section" class="section">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <div class="panel-title"><i class="fa-solid fa-ticket"></i> Bookings Management</div>
+                            <span class="panel-sub">Search, filter, and update booking statuses</span>
+                        </div>
+
+                        <div class="controls">
+                            <div class="control-group">
+                                <i class="fa-solid fa-magnifying-glass control-icon"></i>
+                                <input id="bookingSearch" type="search" placeholder="Search by customer, route, or ID…" autocomplete="off">
+                            </div>
+                            <select id="statusFilter">
+                                <option value="all">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                            <select id="paymentFilter">
+                                <option value="all">All Payments</option>
+                                <option value="paid">Paid</option>
+                                <option value="pending">Payment Pending</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+
+                        <div id="bookingStats" class="stats-row"></div>
+
+                        <div class="panel-overflow">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer</th>
+                                        <th>Route</th>
+                                        <th>Date</th>
+                                        <th>Pax</th>
+                                        <th>Fare</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bookingsBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══ USERS ═══ -->
+                <section id="users-section" class="section">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <div class="panel-title"><i class="fa-solid fa-users"></i> Registered Users</div>
+                            <span class="panel-sub">All customer accounts in the system</span>
+                        </div>
+
+                        <div class="controls">
+                            <div class="control-group">
+                                <i class="fa-solid fa-magnifying-glass control-icon"></i>
+                                <input id="userSearch" type="search" placeholder="Search by name or email…" autocomplete="off">
+                            </div>
+                            <select id="userRoleFilter">
+                                <option value="all">All Roles</option>
+                                <option value="user">Users</option>
+                                <option value="admin">Admins</option>
+                            </select>
+                        </div>
+
+                        <div class="panel-overflow">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Joined</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ═══ DRIVERS ═══ -->
+                <section id="drivers-section" class="section">
+                    <div class="panel">
+                        <div class="panel-head">
+                            <div class="panel-title"><i class="fa-solid fa-id-card"></i> Driver Roster</div>
+                            <span class="panel-sub">Driver availability and license information</span>
+                        </div>
+
+                        <div class="controls">
+                            <div class="control-group">
+                                <i class="fa-solid fa-magnifying-glass control-icon"></i>
+                                <input id="driverSearch" type="search" placeholder="Search by name or license…" autocomplete="off">
+                            </div>
+                            <select id="driverAvailFilter">
+                                <option value="all">All Availability</option>
+                                <option value="available">Available</option>
+                                <option value="unavailable">Unavailable</option>
+                            </select>
+                        </div>
+
+                        <div class="panel-overflow">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>License</th>
+                                        <th>Rating</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="driversBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="shared.js"></script>
+    <script src="admin-dashboard.js"></script>
+</body>
+
+</html>
